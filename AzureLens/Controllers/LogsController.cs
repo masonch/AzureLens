@@ -10,21 +10,22 @@ using System.Web.Http;
 
 namespace AzureLens.Controllers
 {
-    public class ResourceController : Controller
+    public class LogsController : ApiController
     {
 
-        // GET api/resources
-        public List<Resource> Get()
+        // GET api/logs/DEFG12345
+        public List<Log> Get()
         {
-            List<Resource> resources = new List<Resource>();
-            return resources;
-        }
-        public Resource Get(Guid resourceId)
-        {
-            Resource resource = new Resource();
-            return resource;
+            List<Log> logs = new List<Log>();
+            //...
+            return logs;
         }
 
+        // POST api/logs
+        public void Post([FromBody]Log log)
+        {
+            //...
+        }               
     }
 }
 //*********************************************************   

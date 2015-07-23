@@ -10,34 +10,21 @@ using System.Web.Http;
 
 namespace AzureLens.Controllers
 {
-    public class UserController : Controller
+    public class ResourcesController : ApiController
     {
-        // GET api/users
-        public List<User> Get()
+
+        // GET api/resources
+        public List<Resource> Get()
         {
-            List<User> users = new List<User>();
-            //...
-            return users;
+            List<Resource> resources = new List<Resource>();
+            return resources;
+        }
+        public Resource Get(Guid resourceId)
+        {
+            Resource resource = new Resource();
+            return resource;
         }
 
-        // POST api/users
-        public void Post([FromBody]User user)
-        {
-            //...
-        }
-
-        // PUT api/users/User12345
-        public void Put(Guid userId, [FromBody]User user)
-        {
-            //...
-        }
-
-        // DELETE api/users/User12345
-        public void Delete(Guid userId)
-        {
-            //...
-        }
-               
     }
 }
 //*********************************************************   

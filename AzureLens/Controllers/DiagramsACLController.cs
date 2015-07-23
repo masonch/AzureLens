@@ -10,30 +10,39 @@ using System.Web.Http;
 
 namespace AzureLens.Controllers
 {
-    public class DiagramController : Controller
+    public class DiagramsACLController : Controller
     {
 
-        // GET api/diagrams/DEFG12345
-        public Diagram Get(Guid id)
+        // GET api/diagrams/DEFG12345/ACL/
+        public List<Diagram.ACL> Get(Guid diagramId)
         {
-            Diagram dgm = new Diagram();
-            dgm.Author = "beapolin@microsoft.com";
-            return dgm;
+            List<Diagram.ACL> acl = new List<Diagram.ACL>();
+            return acl;
         }
 
-        // POST api/diagrams
-        public void Post([FromBody]Diagram value)
+        // GET api/diagrams/DEFG12345/ACL/UserABC123
+        public Diagram.ACL Get(Guid id, string userName)
         {
+            Diagram.ACL acl = new Diagram.ACL();
+            return acl;
         }
 
-        // PUT api/diagrams/DEFG12345
-        public void Put(Guid id, [FromBody]Diagram value)
+        // POST api/diagrams/DEFG12345/ACL
+        public void Post([FromBody]List<Diagram.ACL> acl)
         {
+            //...
         }
 
-        // DELETE api/diagrams/DEFG12345
-        public void Delete(Guid id)
+        // PUT api/diagrams/DEFG12345/ACL/UserABC123
+        public void Put(Guid diagramId, string userId, [FromBody]Diagram.ACL acl)
         {
+            //...
+        }
+
+        // DELETE api/diagrams/DEFG12345/ACL/UserABC123
+        public void Delete(Guid diagramId, string userId)
+        {
+            //...
         }
 
     }

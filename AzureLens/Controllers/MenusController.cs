@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace AzureLens.Controllers
 {
-    public class MenuController : Controller
+    public class MenusController : ApiController
     {
         // GET api/menus
         public List<Menu> Get()

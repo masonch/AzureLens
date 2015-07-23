@@ -9,29 +9,6 @@ namespace AzureLens.Models
 {
     partial class Diagram
     {
-        public bool isShareable
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        public int isProtected
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
 
         public class ACL
         {

@@ -7,44 +7,42 @@ using System.Web.Mvc;
 using AzureLens.Models;
 using System.Net.Http;
 using System.Web.Http;
+using AzureLens.Database;
 
 namespace AzureLens.Controllers
 {
-    public class DiagramDeploymentController : Controller
+    public class DiagramsController : ApiController
     {
 
-        // GET api/diagrams/DIAG12345/deployments/
-        public List<Diagram.Deployment> Get(Guid diagramId)
+        // GET api/diagrams
+        public List<dynamic> Get()
         {
-            List<Diagram.Deployment> deployments = new List<Diagram.Deployment>();
-            //...
-            return deployments;
+            return DAL.LoadDiagrams();
         }
 
-        // GET api/diagrams/DIAG12345/deployments/1
-        public Diagram.Deployment Get(Guid diagramId, int deploymentId)
+        // GET api/diagrams/DEFG12345
+        public dynamic Get(Guid id)
         {
-            Diagram.Deployment deployment = new Diagram.Deployment();
-            //...
-            return deployment;
+            return DAL.LoadDiagram(id);
+
+            //Diagram dgm = new Diagram();
+            //dgm.Author = "beapolin@microsoft.com";
+            //return dgm;
         }
 
-        // POST api/diagrams/DIAG12345/deployments
-        public void Post([FromBody]Diagram.Deployment deployment)
+        // POST api/diagrams
+        public void Post([FromBody]Diagram value)
         {
-            //...
         }
 
-        // PUT api/diagrams/DIAG12345/deployments/1
-        public void Put(Guid diagramId, int deploymentId, [FromBody]Diagram.Deployment deployment)
+        // PUT api/diagrams/DEFG12345
+        public void Put(Guid id, [FromBody]Diagram value)
         {
-            //...
         }
 
-        // DELETE api/diagrams/DIAG12345/deployments/1
-        public void Delete(Guid diagramId, int deploymentId)
+        // DELETE api/diagrams/DEFG12345
+        public void Delete(Guid id)
         {
-            ///...
         }
 
     }

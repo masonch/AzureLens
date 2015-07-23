@@ -10,32 +10,43 @@ using System.Web.Http;
 
 namespace AzureLens.Controllers
 {
-
-    public class DiagramLayoutController : Controller
+    public class DiagramsDeploymentController : ApiController
     {
-        
-        // GET api/diagrams/DEFG12345/layouts/
-        public Diagram.ACL Get(Guid diagramId)
+
+        // GET api/diagrams/DIAG12345/deployments/
+        public List<Diagram.Deployment> Get(Guid diagramId)
         {
-            Diagram.ACL acl = new Diagram.ACL();
-            return acl;
+            List<Diagram.Deployment> deployments = new List<Diagram.Deployment>();
+            //...
+            return deployments;
         }
 
-        // POST api/diagrams/DEFG12345/layouts
-        public void Post([FromBody]List<Diagram.Layout> layouts)
+        // GET api/diagrams/DIAG12345/deployments/1
+        public Diagram.Deployment Get(Guid diagramId, int deploymentId)
         {
+            Diagram.Deployment deployment = new Diagram.Deployment();
+            //...
+            return deployment;
         }
 
-        // PUT api/diagrams/DEFG12345/ACL/ABC123456
-        public void Put(Guid id, [FromBody]Diagram.ACL acl)
+        // POST api/diagrams/DIAG12345/deployments
+        public void Post([FromBody]Diagram.Deployment deployment)
         {
+            //...
         }
 
-        // DELETE api/diagrams/DEFG12345/ACL/ABC123456
-        public void Delete(Guid id)
+        // PUT api/diagrams/DIAG12345/deployments/1
+        public void Put(Guid diagramId, int deploymentId, [FromBody]Diagram.Deployment deployment)
         {
+            //...
         }
-               
+
+        // DELETE api/diagrams/DIAG12345/deployments/1
+        public void Delete(Guid diagramId, int deploymentId)
+        {
+            ///...
+        }
+
     }
 }
 //*********************************************************   

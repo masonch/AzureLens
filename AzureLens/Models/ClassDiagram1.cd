@@ -6,7 +6,7 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Class Name="AzureLens.Models.Diagram.ACL" Collapsed="true">
+      <Class Name="AzureLens.Models.Diagram.ACL">
         <TypeIdentifier>
           <NewMemberFileName>Models\ACL.cs</NewMemberFileName>
         </TypeIdentifier>

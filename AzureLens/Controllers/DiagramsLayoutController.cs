@@ -10,22 +10,32 @@ using System.Web.Http;
 
 namespace AzureLens.Controllers
 {
-    public class LogController : Controller
-    {
 
-        // GET api/logs/DEFG12345
-        public List<Log> Get()
+    public class DiagramsLayoutController : ApiController
+    {
+        
+        // GET api/diagrams/DEFG12345/layouts/
+        public Diagram.ACL Get(Guid diagramId)
         {
-            List<Log> logs = new List<Log>();
-            //...
-            return logs;
+            Diagram.ACL acl = new Diagram.ACL();
+            return acl;
         }
 
-        // POST api/logs
-        public void Post([FromBody]Log log)
+        // POST api/diagrams/DEFG12345/layouts
+        public void Post([FromBody]List<Diagram.Layout> layouts)
         {
-            //...
-        }               
+        }
+
+        // PUT api/diagrams/DEFG12345/ACL/ABC123456
+        public void Put(Guid id, [FromBody]Diagram.ACL acl)
+        {
+        }
+
+        // DELETE api/diagrams/DEFG12345/ACL/ABC123456
+        public void Delete(Guid id)
+        {
+        }
+               
     }
 }
 //*********************************************************   
