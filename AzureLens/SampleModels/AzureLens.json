@@ -6,7 +6,8 @@
       "position2": { "x": 0, "y": 0 },
       "pinnedToMenu": true,
       "menuName": "2 - AzureLens.Net Web App",
-      "description": "AzureLens is a prototype for an interactive dashboard focused on designing, understanding and managing the architecture of your application on Microsoft Azure."    
+      "description": "AzureLens is a prototype for an interactive dashboard focused on designing, understanding and managing the architecture of your application on Microsoft Azure.",
+      "userId": "beapolin@microsoft.com"
     },
     {
       "id": "box2d Web Server",

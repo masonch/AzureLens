@@ -38,8 +38,13 @@ namespace AzureLens.Database
             List<dynamic> docs = new List<dynamic>();
             using (DocumentDBContext docdb = new DocumentDBContext())
             {
-                dynamic doc = docdb.GetItemAsync<dynamic>("9287117c-3a1e-c467-9906-511a58aa0a1f ", "AzureLensColl");  // test only - load the same JSON doc into a list
+                // test only - load the same JSON doc into a list
+                dynamic doc = LoadDiagram(new Guid("b2aea850-eada-2e77-e074-6fe8f099ccf4")); 
                 docs.Add(doc);
+                docs.Add(doc);
+                docs.Add(doc);
+                
+                //docs = docdb.GetUserItemAsync<dynamic>("beapolin@microsoft.com", "AzureLensColl");
             }
             return docs;
         }
