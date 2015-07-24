@@ -8,6 +8,7 @@ using AzureLens.Models;
 using System.Net.Http;
 using System.Web.Http;
 using AzureLens.Database;
+using System.Threading.Tasks;
 
 namespace AzureLens.Controllers
 {
@@ -15,9 +16,10 @@ namespace AzureLens.Controllers
     {
 
         // GET api/diagrams
-        public List<dynamic> Get()
+        public async Task<List<dynamic>> Get()
         {
-            return DAL.LoadDiagrams();
+            var diagrams = await DAL.GetUserDiagramsAsync("user@contoso.com");
+            return diagrams;
         }
 
         // GET api/diagrams/DEFG12345

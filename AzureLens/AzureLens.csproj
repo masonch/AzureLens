@@ -324,6 +324,8 @@
     <Content Include="assets\Spaceship\0.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <None Include="Database\DocumentDB\js\docdb.intellisense.js" />
+    <EmbeddedResource Include="Database\DocumentDB\js\QueryByFilter.js" />
     <Content Include="fonts\font-awesome.css" />
     <Content Include="fonts\font-awesome.min.css" />
     <Content Include="Content\basecss\jquery.multilevelpushmenu.css" />

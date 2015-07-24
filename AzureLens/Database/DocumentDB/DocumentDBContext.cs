@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,9 +21,14 @@ namespace AzureLens.Database.DocumentDB
         private Microsoft.Azure.Documents.Database _database;
         private Mutex _lockMutex = new Mutex();
 
-        public DocumentDBContext()
+        private static string QueryByFilter = "QueryByFilter";
+
+        public DocumentDBContext(string collectionName = "")
         {
+            CollectionName = collectionName;
         }
+
+        public string CollectionName { get; set; }
 
         private string ConnectionUrl { get; set; } = ConfigurationManager.AppSettings["DocumentDBURI"];
         private string ConnectionKey { get; set; } = ConfigurationManager.AppSettings["DocumentDBKey"];
@@ -101,6 +108,55 @@ namespace AzureLens.Database.DocumentDB
             }
 
             return result;
+        }
+
+        internal class FilterResult
+        { 
+            public Document[] Result { get; set; } 
+            public int? Continuation { get; set; } 
+        }
+
+        public async Task<List<dynamic>> GetItemsByPropertyAsync<TItem>(string propertyName, string propertyValue)
+        {
+            List<dynamic> results = new List<dynamic>();
+            var collection = await GetCollectionAsync(CollectionName);
+            if (collection == null)
+            {
+                return results;
+            }
+
+            try
+            {
+                StoredProcedure sproc = null;
+                sproc = _client.CreateStoredProcedureQuery(collection.StoredProceduresLink, String.Format("select * from root r where r.id = '{0}'", QueryByFilter)).ToList().FirstOrDefault();
+                if (sproc == null)
+                {
+                    sproc = await RegisterQueryByFilterStoredProc(collection);
+                    if (sproc == null)
+                    {
+                        return results;
+                    }
+                }
+                var filterQuery = string.Format(CultureInfo.InvariantCulture, "SELECT * FROM root r where r.{0} = '{1}'", propertyName, propertyValue);
+                int? continuationToken = null;
+
+                do
+                {
+                    var response = await _client.ExecuteStoredProcedureAsync<FilterResult>(sproc.SelfLink, filterQuery, continuationToken);
+
+                    continuationToken = response.Response.Continuation;
+                    foreach (var doc in response.Response.Result)
+                    {
+                        results.Add(doc);
+                    }
+                } while (continuationToken != null);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+
+            return results;
         }
 
         public async Task<dynamic> GetItemAsync<TItem>(string id, string collectionId)
@@ -191,6 +247,7 @@ namespace AzureLens.Database.DocumentDB
             if (result == null)
             {
                 result = await _client.CreateDocumentCollectionAsync(_database.SelfLink, new DocumentCollection { Id = collectionId });
+                //await RegisterStoredProcedures(result);
             }
 
             return result;
@@ -208,6 +265,47 @@ namespace AzureLens.Database.DocumentDB
             }
 
             return db;
+        }
+
+        //private async Task RegisterStoredProcedures(DocumentCollection collection)
+        //{
+        //    switch (collection.Id.ToLowerInvariant())
+        //    {
+        //        case "diagrams":
+        //            await RegisterDiagramStoredProceduresAsync(collection);
+        //            break;
+        //    }
+        //}
+
+        //private async Task RegisterDiagramStoredProceduresAsync(DocumentCollection collection)
+        //{
+        //    await RegisterQueryByUserIdSProc(collection.SelfLink);
+        //}
+
+        private async Task<StoredProcedure> RegisterQueryByFilterStoredProc(DocumentCollection collection)
+        {
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var resourceName = "AzureLens.Database.DocumentDB.js.QueryByFilter.js";
+
+            var body = string.Empty;
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                body = reader.ReadToEnd();
+            }
+
+            if (string.IsNullOrWhiteSpace(body))
+            {
+                return null;
+            }
+            var sproc = new StoredProcedure
+            {
+                Id = QueryByFilter,
+                Body = body
+            };
+
+            sproc = await _client.CreateStoredProcedureAsync(collection.SelfLink, sproc);
+            return sproc;
         }
     }
 }

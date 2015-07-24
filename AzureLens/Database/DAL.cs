@@ -44,6 +44,21 @@ namespace AzureLens.Database
             return docs;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        static public async Task<List<dynamic>> GetUserDiagramsAsync(string userId)
+        {
+            List<dynamic> docs = new List<dynamic>();
+            using (DocumentDBContext docdb = new DocumentDBContext("Diagrams"))
+            {
+                docs = await docdb.GetItemsByPropertyAsync<dynamic>("userId", userId);
+            }
+            return docs;
+        }
+
         //static public bool UpdateDiagram(Guid diagramId, string doc)
         //{
         //    using (DocumentDBContext docdb = new DocumentDBContext())
